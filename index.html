@@ -51,10 +51,11 @@
         <div class="phone-wrap">
           <div class="phone">
             <div class="phone-speaker"></div>
-            <video controls playsinline preload="metadata" poster="assets/video-poster.jpg">
+            <video id="promoVideo" controls autoplay muted playsinline loop preload="auto" poster="assets/video-poster.jpg">
               <source src="assets/eventolens-publicidad.mp4" type="video/mp4" />
               Tu navegador no puede reproducir este video.
             </video>
+            <button class="sound-hint" id="soundHint" type="button" aria-label="Activar audio del video">🔊 Activar audio</button>
           </div>
           <div class="floating-card card-live"><span class="live-dot"></span><div><b>EN VIVO</b><small>Los recuerdos aparecen al instante</small></div></div>
           <div class="floating-card card-ai"><span class="spark">✦</span><div><b>IA organizando</b><small>Momentos · emociones · personas</small></div></div>
@@ -122,7 +123,11 @@
         <div class="screen-mock">
           <div class="screen-head"><div class="screen-logo"><span class="brand-mark tiny"><span></span></span>EVENTOLENS</div><span>LIVE ●</span></div>
           <div class="screen-grid">
-            <div class="ph ph1"></div><div class="ph ph2"></div><div class="ph ph3"></div><div class="ph ph4"></div><div class="ph ph5"></div>
+            <figure class="photo-card tall photo-one"><img src="assets/livewall-01.svg" alt="Pareja celebrando durante el evento"><figcaption>Entrada</figcaption></figure>
+            <figure class="photo-card photo-two"><img src="assets/livewall-02.svg" alt="Invitados brindando y sonriendo"><figcaption>Brindis</figcaption></figure>
+            <figure class="photo-card photo-three"><img src="assets/livewall-03.svg" alt="Mesa con flores y decoración"><figcaption>Detalles</figcaption></figure>
+            <figure class="photo-card photo-four"><img src="assets/livewall-04.svg" alt="Invitados bailando en la pista"><figcaption>Fiesta</figcaption></figure>
+            <figure class="photo-card photo-five"><img src="assets/livewall-05.svg" alt="Familia posando para una foto"><figcaption>Familia</figcaption></figure>
           </div>
         </div>
       </div>

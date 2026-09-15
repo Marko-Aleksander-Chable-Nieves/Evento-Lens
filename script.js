@@ -115,3 +115,35 @@ document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click',()=>
 
 document.getElementById('year').textContent = new Date().getFullYear();
 updateQuote();
+
+
+const promoVideo = document.getElementById('promoVideo');
+const soundHint = document.getElementById('soundHint');
+
+async function keepVideoPlaying(){ if(!promoVideo) return; try{ await promoVideo.play(); }catch(e){} }
+keepVideoPlaying();
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && promoVideo && promoVideo.paused) keepVideoPlaying(); });
+window.addEventListener('focus', keepVideoPlaying);
+
+if(soundHint && promoVideo){
+  soundHint.addEventListener('click', async ()=>{
+    promoVideo.muted = false;
+    promoVideo.volume = 1;
+    try{ await promoVideo.play(); soundHint.classList.add('hidden'); }
+    catch(e){ soundHint.textContent = 'Toca play o el volumen para escuchar audio'; }
+  });
+
+  const tryEnableAudio = async ()=>{
+    if(!promoVideo.muted) return;
+    promoVideo.muted = false;
+    try{ await promoVideo.play(); soundHint.classList.add('hidden'); }
+    catch(e){ promoVideo.muted = true; }
+  };
+
+  window.addEventListener('pointerdown', tryEnableAudio);
+  window.addEventListener('keydown', tryEnableAudio);
+
+  promoVideo.addEventListener('volumechange', ()=>{
+    soundHint.classList.toggle('hidden', !promoVideo.muted);
+  });
+}
