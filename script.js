@@ -119,11 +119,21 @@ updateQuote();
 
 const promoVideo = document.getElementById('promoVideo');
 const soundHint = document.getElementById('soundHint');
+let promoPausedByUser = false;
 
-async function keepVideoPlaying(){ if(!promoVideo) return; try{ await promoVideo.play(); }catch(e){} }
-keepVideoPlaying();
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden && promoVideo && promoVideo.paused) keepVideoPlaying(); });
-window.addEventListener('focus', keepVideoPlaying);
+async function keepVideoPlaying(){
+  if(!promoVideo || promoPausedByUser) return;
+  try{ await promoVideo.play(); }catch(e){}
+}
+
+if(promoVideo){
+  promoVideo.addEventListener('pause', ()=>{ promoPausedByUser = true; });
+  promoVideo.addEventListener('play', ()=>{ promoPausedByUser = false; });
+  keepVideoPlaying();
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden && !promoPausedByUser) keepVideoPlaying();
+  });
+}
 
 if(soundHint && promoVideo){
   soundHint.addEventListener('click', async ()=>{
@@ -134,7 +144,7 @@ if(soundHint && promoVideo){
   });
 
   const tryEnableAudio = async ()=>{
-    if(!promoVideo.muted) return;
+    if(!promoVideo.muted || promoPausedByUser) return;
     promoVideo.muted = false;
     try{ await promoVideo.play(); soundHint.classList.add('hidden'); }
     catch(e){ promoVideo.muted = true; }
