@@ -23,6 +23,7 @@
       <a href="#experiencia">Experiencia</a>
       <a href="#planes">Planes</a>
       <a href="#simulador">Simulador</a>
+      <a href="game.html">Juego</a>
     </nav>
     <a class="btn btn-small" href="#simulador">Cotizar evento</a>
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
@@ -199,12 +200,23 @@
               <label class="extra"><input type="checkbox" data-extra="branding" data-price="35"><span class="check"></span><div><b>Personalización visual avanzada</b><small>Landing con estilo, colores y detalles del evento.</small></div><strong>+$35</strong></label>
             </div>
           </div>
+
+          <div class="control-block coupon-control">
+            <div class="label-row"><label for="couponInput">Cupón de descuento</label><small>¿Ganaste uno en el juego?</small></div>
+            <div class="coupon-input-row">
+              <input id="couponInput" type="text" inputmode="text" autocomplete="off" placeholder="Ej. LENS5" maxlength="12" />
+              <button id="applyCoupon" type="button">Aplicar</button>
+            </div>
+            <div id="couponStatus" class="coupon-status" aria-live="polite"></div>
+            <a class="play-coupon-link" href="game.html">🎮 Juega EventoLens Runner y gana un cupón</a>
+          </div>
         </div>
 
         <aside class="quote-card">
           <div class="quote-head"><div><span>TU ESTIMACIÓN</span><h3 id="quoteEvent">Boda · 150 invitados</h3></div><span class="quote-badge" id="quotePlanBadge">PREMIUM</span></div>
           <div class="quote-line"><span>Plan <span id="quotePlan">Premium</span></span><strong id="basePrice">$250</strong></div>
           <div id="extrasSummary"></div>
+          <div id="discountLine" class="discount-line hidden"><span>Descuento <b id="discountCode">LENS5</b></span><strong id="discountAmount">−$0</strong></div>
           <div class="quote-total"><div><span>Total estimado</span><small>USD · precio orientativo</small></div><strong id="totalPrice">$250</strong></div>
           <div class="included" id="includedFeatures"></div>
           <button class="btn btn-primary quote-copy" id="copyQuote">Copiar cotización <span>⧉</span></button>
@@ -224,6 +236,23 @@
       </div>
     </section>
 
+
+    <section class="section game-promo" id="juego">
+      <div class="game-promo-card reveal">
+        <div class="game-promo-copy">
+          <div class="eyebrow"><span class="dot"></span> EXPERIENCIA INTERACTIVA</div>
+          <h2>Juega <span>EventoLens Runner.</span></h2>
+          <p>Un minijuego estilo Endless Runner integrado a la marca: esquiva obstáculos, suma puntos y descubre mensajes promocionales mientras juegas.</p>
+          <a class="btn btn-primary" href="game.html">Jugar ahora <span>→</span></a>
+        </div>
+        <div class="game-promo-visual" aria-hidden="true">
+          <div class="runner-track"><div class="runner-logo"><i></i></div><div class="runner-obstacle"></div><div class="runner-obstacle second"></div></div>
+          <div class="runner-score"><span>SCORE</span><b>0842</b></div>
+          <div class="runner-ad">PUBLICIDAD · EVENTOLENS PREMIUM</div>
+        </div>
+      </div>
+    </section>
+
     <section class="section final-cta">
       <div class="cta-box reveal">
         <div class="eyebrow light"><span class="dot"></span> Cada invitado tiene un ángulo distinto</div>
@@ -237,7 +266,7 @@
   <footer>
     <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><span></span></span><span>EVENTO<span>LENS</span></span></a>
     <p>Captura el evento a través de los ojos de todos los invitados.</p>
-    <div class="footer-links"><a href="#como-funciona">Cómo funciona</a><a href="#planes">Planes</a><a href="#simulador">Simulador</a></div>
+    <div class="footer-links"><a href="#como-funciona">Cómo funciona</a><a href="#planes">Planes</a><a href="#simulador">Simulador</a><a href="game.html">Juego</a></div>
     <small>© <span id="year"></span> Eventolens. Demo comercial.</small>
   </footer>
 

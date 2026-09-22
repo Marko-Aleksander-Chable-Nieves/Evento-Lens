@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#090710" />
+  <meta name="description" content="EventoLens Runner, juego promocional de Eventolens." />
+  <title>EventoLens Runner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="game.css" />
+</head>
+<body>
+  <main class="game-app" aria-label="EventoLens Runner">
+    <section class="game-frame">
+      <header class="game-topbar">
+        <a class="brand" href="index.html" aria-label="Eventolens">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span>EVENTO<span>LENS</span></span>
+        </a>
+
+        <div class="game-stats" aria-label="Estadísticas del juego">
+          <div><span>PUNTOS</span><strong id="score">0000</strong></div>
+          <div><span>MONEDAS</span><strong id="coins">0</strong></div>
+          <div class="best-stat"><span>RÉCORD</span><strong id="best">0000</strong></div>
+          <button id="soundBtn" class="icon-btn" type="button" aria-label="Activar o desactivar sonido">🔊</button>
+        </div>
+      </header>
+
+      <aside class="ad-strip" aria-label="Publicidad de Eventolens">
+        <span class="ad-pill">EVENTOLENS</span>
+        <div class="ad-copy" id="adCopy">Tu evento visto por todos · Fotos, videos e IA en un solo lugar.</div>
+        <a href="index.html#simulador">Cotizar →</a>
+      </aside>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="gameCanvas" aria-label="Área del juego"></canvas>
+
+        <div class="start-overlay" id="startOverlay">
+          <div class="start-card">
+            <div class="start-logo"><span></span></div>
+            <div class="mini-label">EVENTOLENS RUNNER</div>
+            <h1>Corre, salta y <span>reúne monedas.</span></h1>
+            <p>Esquiva los obstáculos del evento. En PC usa <b>Espacio</b> o <b>↑</b>. En celular, toca el juego.</p>
+            <button id="startBtn" class="primary-btn" type="button">Jugar ahora</button>
+          </div>
+        </div>
+
+        <div class="gameover-overlay hidden" id="gameoverOverlay" role="dialog" aria-modal="true" aria-labelledby="gameoverTitle">
+          <div class="gameover-card">
+            <div class="gameover-badge">GAME OVER</div>
+            <h2 id="gameoverTitle">¡Ganaste un descuento!</h2>
+            <p class="gameover-summary">Hiciste <strong id="finalScore">0</strong> puntos y reuniste <strong id="finalCoins">0</strong> monedas.</p>
+
+            <div class="result-grid">
+              <div><span>Puntuación</span><b id="finalScoreBox">0</b></div>
+              <div><span>Monedas</span><b id="finalCoinsBox">0</b></div>
+              <div><span>Mejor marca</span><b id="finalBest">0</b></div>
+            </div>
+
+            <div class="coupon-card">
+              <div>
+                <span>PREMIO EVENTOLENS</span>
+                <strong id="couponDiscount">5% DE DESCUENTO</strong>
+                <small>Planes desde $100 USD · Fotos, video, IA y muro en vivo. Úsalo en el simulador para ver tu precio aproximado.</small>
+              </div>
+              <button id="copyCoupon" class="coupon-code" type="button" title="Copiar cupón">
+                <b id="couponCode">LENS5</b><span>Copiar</span>
+              </button>
+            </div>
+
+            <div class="gameover-actions">
+              <button id="restartBtn" class="secondary-btn" type="button">↻ Jugar otra vez</button>
+              <a id="simulatorLink" class="primary-btn" href="index.html?coupon=LENS5#simulador">Usar cupón y cotizar →</a>
+            </div>
+            <small class="coupon-note">Cupón promocional de demostración. El simulador mostrará el descuento aplicado a la estimación.</small>
+          </div>
+        </div>
+      </div>
+
+      <footer class="game-help">
+        <span><b>PC:</b> Espacio / ↑</span>
+        <span><b>Móvil:</b> toca el juego</span>
+        <span class="help-ad">Anuncios promocionales de Eventolens</span>
+      </footer>
+    </section>
+  </main>
+
+  <div class="toast" id="gameToast" role="status" aria-live="polite">Cupón copiado</div>
+  <script src="game.js"></script>
+</body>
+</html>

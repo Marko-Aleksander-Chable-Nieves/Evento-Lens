@@ -1,21 +1,44 @@
-# Eventolens - Sitio web comercial
+# Eventolens Web + EventoLens Runner
 
-Sitio estático listo para GitHub Pages. No necesita servidor ni instalación.
+Sitio estático listo para GitHub Pages. No requiere backend.
 
-## Contenido
-- `index.html`: página principal.
-- `styles.css`: estilos responsive.
-- `script.js`: simulador de precios e interacciones.
-- `assets/eventolens-publicidad.mp4`: video publicitario vertical.
-- `assets/video-poster.jpg`: portada del video.
+## Archivos principales
 
-## Planes cargados desde la propuesta de Eventolens
-- Básico: $100 USD — 500 fotos, QR y galería.
-- Premium: $250 USD — fotos ilimitadas, videos, 1 reel automático IA y muro en vivo.
-- Elite: $350 USD — fotos ilimitadas, videos, reel automático IA, muro en video, reconocimiento facial y libro digital automático.
+- `index.html` — sitio principal y simulador de precios.
+- `styles.css` — estilos del sitio principal.
+- `script.js` — simulador, cupón y comportamiento del sitio.
+- `game.html` — EventoLens Runner, página dedicada al juego.
+- `game.css` — diseño responsive del juego.
+- `game.js` — lógica del juego, monedas, anuncios y cupones.
+- `assets/` — video y recursos del sitio.
 
-## Extras del simulador
-Los extras y sus precios son propuestas de demostración, no forman parte del PDF original. Se pueden cambiar en `index.html` y `script.js` antes de publicar comercialmente.
+## Cupones del juego
 
-## GitHub Pages
-Sube **todo el contenido de esta carpeta** a la raíz de un repositorio público y activa Pages desde Settings > Pages > Deploy from a branch > main > /(root).
+El juego entrega siempre un cupón al perder:
+
+- `LENS5` — 5% de descuento.
+- `LENS10` — 10% de descuento para mejores partidas.
+- `LENS15` — 15% de descuento para partidas destacadas.
+
+El botón **Usar cupón y cotizar** abre el simulador con el cupón aplicado automáticamente. También se puede escribir el código manualmente en la sección **Cupón de descuento** del simulador.
+
+> Los cupones son promocionales/demostrativos para el proyecto y el total mostrado por el simulador es una estimación.
+
+## Publicar en GitHub Pages
+
+Sube **el contenido de esta carpeta** a la raíz del repositorio, de modo que `index.html` quede directamente en la raíz.
+
+En GitHub:
+
+1. `Settings` → `Pages`.
+2. En **Source**, elige `Deploy from a branch`.
+3. Selecciona `main` y `/ (root)`.
+4. Guarda los cambios.
+
+La web quedará en una dirección similar a:
+
+`https://TU-USUARIO.github.io/NOMBRE-DEL-REPOSITORIO/`
+
+El juego estará en:
+
+`https://TU-USUARIO.github.io/NOMBRE-DEL-REPOSITORIO/game.html`
