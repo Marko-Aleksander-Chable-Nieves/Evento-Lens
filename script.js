@@ -121,12 +121,29 @@ function saveExperimentEvent(type, payload={}){
 
 async function postExperiment(payload){
   if(!experimentCfg.endpoint) return {mode:'local'};
+  const sheetPayload = {
+    nombre: payload.name || '',
+    tipoEvento: payload.event_type || '',
+    fechaEvento: payload.event_date || '',
+    invitados: payload.guests || '',
+    plan: payload.plan || '',
+    precioEstimado: payload.estimated_total || '',
+    intencionCompra: payload.purchase_intent || '',
+    funcionFavorita: payload.favorite_feature || '',
+    precioRazonable: payload.expected_budget || '',
+    impedimento: payload.objection || '',
+    correo: payload.email || '',
+    whatsapp: payload.whatsapp || '',
+    aceptaContacto: payload.contact_permission || 'No',
+    cupon: payload.coupon_before_survey || '',
+    fuente: payload.source || 'Landing Page Eventolens - Fake Door'
+  };
   try{
     await fetch(experimentCfg.endpoint, {
       method:'POST',
       mode:'no-cors',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify(payload)
+      body:JSON.stringify(sheetPayload)
     });
     return {mode:'remote'};
   }catch(error){

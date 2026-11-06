@@ -53,3 +53,8 @@ La interfaz está lista, pero para recibir respuestas de dispositivos distintos 
 Para comprobar el estado de conexión sin mostrarlo al público, abre la landing con `?admin=1`.
 
 Cupón del experimento: `LANZA20` (20%).
+
+
+## Google Sheets conectado
+
+Esta versión ya incluye el endpoint de Google Apps Script del experimento. Las respuestas se envían a la hoja `Respuestas` y también conservan una copia local en el navegador como respaldo.
