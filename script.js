@@ -120,9 +120,10 @@ function saveExperimentEvent(type, payload={}){
 }
 
 async function postExperiment(payload){
-  if(!experimentCfg.endpoint) return {mode:'local'};
+  if(!experimentCfg.endpoint) return {mode:'local', ok:false, error:'Sin endpoint configurado'};
 
   const sheetPayload = {
+    action: 'submit',
     nombre: payload.name || '',
     tipoEvento: payload.event_type || '',
     fechaEvento: payload.event_date || '',
@@ -137,47 +138,46 @@ async function postExperiment(payload){
     whatsapp: payload.whatsapp || '',
     aceptaContacto: payload.contact_permission || 'No',
     cupon: payload.coupon_before_survey || '',
-    fuente: payload.source || 'Landing Page Eventolens - Fake Door'
+    fuente: payload.source || 'Landing Page Eventolens - Fake Door',
+    requestId: 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2,8)
   };
 
-  try{
-    // Envío tradicional de formulario hacia Apps Script.
-    // Evita los problemas de CORS/no-cors de fetch en GitHub Pages.
-    const targetName = 'eventolens_sheet_' + Date.now();
-    const iframe = document.createElement('iframe');
-    iframe.name = targetName;
-    iframe.title = 'Envío de respuesta Eventolens';
-    iframe.style.display = 'none';
+  return new Promise(resolve=>{
+    const callbackName='__eventolensSheetsCallback_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    const params=new URLSearchParams(sheetPayload);
+    params.set('callback',callbackName);
 
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = experimentCfg.endpoint;
-    form.target = targetName;
-    form.style.display = 'none';
+    const script=document.createElement('script');
+    let finished=false;
 
-    Object.entries(sheetPayload).forEach(([name,value])=>{
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = name;
-      input.value = String(value ?? '');
-      form.appendChild(input);
-    });
+    const cleanup=()=>{
+      if(finished) return;
+      finished=true;
+      try{delete window[callbackName]}catch(e){window[callbackName]=undefined}
+      script.remove();
+    };
 
-    document.body.appendChild(iframe);
-    document.body.appendChild(form);
-    form.submit();
+    const timer=setTimeout(()=>{
+      cleanup();
+      resolve({mode:'remote-jsonp-timeout',ok:false,error:'Tiempo de espera agotado'});
+    },12000);
 
-    // Dejamos tiempo suficiente para que el POST salga antes de limpiar el DOM.
-    setTimeout(()=>{
-      form.remove();
-      iframe.remove();
-    }, 8000);
+    window[callbackName]=(data)=>{
+      clearTimeout(timer);
+      cleanup();
+      resolve({mode:'remote-jsonp',ok:!!data?.ok,data});
+    };
 
-    return {mode:'remote-form'};
-  }catch(error){
-    console.warn('No se pudo enviar el experimento.', error);
-    return {mode:'local-fallback'};
-  }
+    script.onerror=()=>{
+      clearTimeout(timer);
+      cleanup();
+      resolve({mode:'remote-jsonp-error',ok:false,error:'No se pudo contactar Google Apps Script'});
+    };
+
+    script.src=experimentCfg.endpoint + '?' + params.toString();
+    script.async=true;
+    document.head.appendChild(script);
+  });
 }
 
 function openFakeDoor(origin='cta'){
@@ -228,11 +228,22 @@ experimentForm?.addEventListener('submit',async e=>{
   saveExperimentEvent('survey_submit',response);
   localStorage.setItem('eventolensLastSurveyResponse',JSON.stringify(response));
   const result=await postExperiment(response);
-  experimentForm.classList.add('hidden');
-  surveySuccess.classList.remove('hidden');
   submitBtn.disabled=false;
   submitBtn.innerHTML='Enviar respuestas y obtener mi 20% <span>→</span>';
-  saveExperimentEvent('survey_success',{storage:result.mode});
+
+  if(result.ok){
+    experimentForm.classList.add('hidden');
+    surveySuccess.classList.remove('hidden');
+    saveExperimentEvent('survey_success',{storage:result.mode,server:result.data||null});
+  }else{
+    saveExperimentEvent('survey_error',{storage:result.mode,error:result.error||'Error desconocido'});
+    const toast=document.getElementById('toast');
+    if(toast){
+      toast.textContent='No pudimos guardar tu respuesta. Intenta nuevamente.';
+      toast.classList.add('show');
+      setTimeout(()=>{toast.classList.remove('show');toast.textContent='Cotización copiada ✓';},3200);
+    }
+  }
 });
 
 document.getElementById('launchCode')?.addEventListener('click',async()=>{
