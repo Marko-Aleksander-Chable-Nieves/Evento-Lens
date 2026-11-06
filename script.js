@@ -121,6 +121,7 @@ function saveExperimentEvent(type, payload={}){
 
 async function postExperiment(payload){
   if(!experimentCfg.endpoint) return {mode:'local'};
+
   const sheetPayload = {
     nombre: payload.name || '',
     tipoEvento: payload.event_type || '',
@@ -138,14 +139,41 @@ async function postExperiment(payload){
     cupon: payload.coupon_before_survey || '',
     fuente: payload.source || 'Landing Page Eventolens - Fake Door'
   };
+
   try{
-    await fetch(experimentCfg.endpoint, {
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify(sheetPayload)
+    // Envío tradicional de formulario hacia Apps Script.
+    // Evita los problemas de CORS/no-cors de fetch en GitHub Pages.
+    const targetName = 'eventolens_sheet_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = targetName;
+    iframe.title = 'Envío de respuesta Eventolens';
+    iframe.style.display = 'none';
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = experimentCfg.endpoint;
+    form.target = targetName;
+    form.style.display = 'none';
+
+    Object.entries(sheetPayload).forEach(([name,value])=>{
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      input.value = String(value ?? '');
+      form.appendChild(input);
     });
-    return {mode:'remote'};
+
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+
+    // Dejamos tiempo suficiente para que el POST salga antes de limpiar el DOM.
+    setTimeout(()=>{
+      form.remove();
+      iframe.remove();
+    }, 8000);
+
+    return {mode:'remote-form'};
   }catch(error){
     console.warn('No se pudo enviar el experimento.', error);
     return {mode:'local-fallback'};

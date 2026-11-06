@@ -58,3 +58,7 @@ Cupón del experimento: `LANZA20` (20%).
 ## Google Sheets conectado
 
 Esta versión ya incluye el endpoint de Google Apps Script del experimento. Las respuestas se envían a la hoja `Respuestas` y también conservan una copia local en el navegador como respaldo.
+
+
+## v8 - Envío Google Sheets
+El formulario Fake Door usa un POST HTML tradicional a Google Apps Script mediante un iframe oculto. Esto evita problemas de CORS de GitHub Pages y entrega los campos mediante `e.parameter`.
