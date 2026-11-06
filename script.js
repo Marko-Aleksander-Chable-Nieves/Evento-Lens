@@ -3,7 +3,7 @@ const plans = {
   premium:{name:'Premium',price:250,features:['Fotos ilimitadas','Videos','1 Reel automático con IA','Muro en vivo','QR + galería']},
   elite:{name:'Elite',price:350,features:['Fotos ilimitadas','Videos','Reel automático con IA','Muro en video','Reconocimiento facial','Libro digital automático','QR + galería']}
 };
-const coupons={LENS5:5,LENS10:10,LENS15:15};
+const coupons={LENS5:5,LENS10:10,LENS15:15,LANZA20:20};
 let selectedPlan='premium';
 let appliedCoupon=null;
 
@@ -92,3 +92,122 @@ const promoVideo=document.getElementById('promoVideo');const soundHint=document.
 async function keepVideoPlaying(){if(!promoVideo||promoPausedByUser)return;try{await promoVideo.play()}catch(e){}}
 if(promoVideo){promoVideo.addEventListener('pause',()=>{promoPausedByUser=true});promoVideo.addEventListener('play',()=>{promoPausedByUser=false});keepVideoPlaying();document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!promoPausedByUser)keepVideoPlaying()})}
 if(soundHint&&promoVideo){soundHint.addEventListener('click',async()=>{promoVideo.muted=false;promoVideo.volume=1;try{await promoVideo.play();soundHint.classList.add('hidden')}catch(e){soundHint.textContent='Toca play o el volumen para escuchar audio'}});const tryEnableAudio=async()=>{if(!promoVideo.muted||promoPausedByUser)return;promoVideo.muted=false;try{await promoVideo.play();soundHint.classList.add('hidden')}catch(e){promoVideo.muted=true}};window.addEventListener('pointerdown',tryEnableAudio);window.addEventListener('keydown',tryEnableAudio);promoVideo.addEventListener('volumechange',()=>{soundHint.classList.toggle('hidden',!promoVideo.muted)})}
+
+
+// ===== Experimento Fake Door comercial =====
+const experimentCfg = window.EVENTOLENS_EXPERIMENT || {endpoint:'', coupon:'LANZA20', discountPercent:20};
+const fakeDoorModal = document.getElementById('fakeDoorModal');
+const fakeDoorIntro = document.getElementById('fakeDoorIntro');
+const experimentForm = document.getElementById('experimentForm');
+const surveySuccess = document.getElementById('surveySuccess');
+const surveySummary = document.getElementById('surveySummary');
+const adminStatus = document.getElementById('adminStatus');
+
+function experimentSnapshot(){
+  return {
+    event_type:eventType?.value || '',
+    guests:Number(guests?.value || 0),
+    plan:plans[selectedPlan]?.name || '',
+    estimated_total:Math.round(getFinalTotal()),
+    coupon_before_survey:appliedCoupon || ''
+  };
+}
+
+function saveExperimentEvent(type, payload={}){
+  const events = JSON.parse(localStorage.getItem('eventolensExperimentEvents') || '[]');
+  events.push({type, at:new Date().toISOString(), ...payload});
+  localStorage.setItem('eventolensExperimentEvents', JSON.stringify(events.slice(-300)));
+}
+
+async function postExperiment(payload){
+  if(!experimentCfg.endpoint) return {mode:'local'};
+  try{
+    await fetch(experimentCfg.endpoint, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload)
+    });
+    return {mode:'remote'};
+  }catch(error){
+    console.warn('No se pudo enviar el experimento.', error);
+    return {mode:'local-fallback'};
+  }
+}
+
+function openFakeDoor(origin='cta'){
+  const snap=experimentSnapshot();
+  saveExperimentEvent('fake_door_open',{origin,...snap});
+  fakeDoorIntro.classList.remove('hidden');
+  experimentForm.classList.add('hidden');
+  surveySuccess.classList.add('hidden');
+  surveySummary.innerHTML=`<b>${snap.event_type}</b><span>${snap.guests.toLocaleString('es-MX')} invitados · Plan ${snap.plan} · Estimado ${formatUSD(snap.estimated_total)} USD</span>`;
+  document.getElementById('formEventType').value=snap.event_type;
+  document.getElementById('formGuests').value=snap.guests;
+  document.getElementById('formPlan').value=snap.plan;
+  document.getElementById('formTotal').value=snap.estimated_total;
+  document.getElementById('formCoupon').value=snap.coupon_before_survey;
+  fakeDoorModal.classList.add('open');
+  fakeDoorModal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+}
+
+function closeFakeDoor(){
+  fakeDoorModal.classList.remove('open');
+  fakeDoorModal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+}
+
+document.getElementById('reserveEvent')?.addEventListener('click',()=>openFakeDoor('simulator'));
+document.querySelectorAll('.fake-door-trigger').forEach(btn=>btn.addEventListener('click',()=>openFakeDoor('final_cta')));
+document.querySelectorAll('[data-close-fake-door]').forEach(el=>el.addEventListener('click',closeFakeDoor));
+document.addEventListener('keydown',e=>{if(e.key==='Escape' && fakeDoorModal?.classList.contains('open')) closeFakeDoor()});
+
+document.getElementById('startSurvey')?.addEventListener('click',()=>{
+  saveExperimentEvent('survey_start',experimentSnapshot());
+  fakeDoorIntro.classList.add('hidden');
+  experimentForm.classList.remove('hidden');
+  experimentForm.querySelector('input,select,textarea')?.focus();
+});
+
+experimentForm?.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const submitBtn=document.getElementById('submitSurvey');
+  submitBtn.disabled=true;
+  submitBtn.innerHTML='Enviando…';
+  const fd=new FormData(experimentForm);
+  const response=Object.fromEntries(fd.entries());
+  response.submitted_at=new Date().toISOString();
+  response.page_url=location.href;
+  response.user_agent=navigator.userAgent;
+  saveExperimentEvent('survey_submit',response);
+  localStorage.setItem('eventolensLastSurveyResponse',JSON.stringify(response));
+  const result=await postExperiment(response);
+  experimentForm.classList.add('hidden');
+  surveySuccess.classList.remove('hidden');
+  submitBtn.disabled=false;
+  submitBtn.innerHTML='Enviar respuestas y obtener mi 20% <span>→</span>';
+  saveExperimentEvent('survey_success',{storage:result.mode});
+});
+
+document.getElementById('launchCode')?.addEventListener('click',async()=>{
+  const code=experimentCfg.coupon || 'LANZA20';
+  try{await navigator.clipboard.writeText(code)}catch(e){}
+  const btn=document.getElementById('launchCode');
+  btn.textContent='COPIADO ✓';
+  setTimeout(()=>btn.textContent=code,1200);
+});
+
+document.getElementById('applyLaunchCoupon')?.addEventListener('click',()=>{
+  const code=experimentCfg.coupon || 'LANZA20';
+  applyCoupon(code,{silent:true});
+  closeFakeDoor();
+  document.getElementById('simulador')?.scrollIntoView({behavior:'smooth',block:'start'});
+  saveExperimentEvent('launch_coupon_applied',{coupon:code,...experimentSnapshot()});
+});
+
+// Modo de administración local: agrega ?admin=1 a la URL para comprobar la conexión.
+if(new URLSearchParams(location.search).get('admin')==='1' && adminStatus){
+  adminStatus.hidden=false;
+  adminStatus.textContent=experimentCfg.endpoint ? 'Captura de respuestas: CONECTADA' : 'Captura de respuestas: MODO PRUEBA (solo este navegador)';
+}

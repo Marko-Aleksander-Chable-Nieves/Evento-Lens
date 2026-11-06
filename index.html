@@ -220,6 +220,8 @@
           <div class="quote-total"><div><span>Total estimado</span><small>USD · precio orientativo</small></div><strong id="totalPrice">$250</strong></div>
           <div class="included" id="includedFeatures"></div>
           <button class="btn btn-primary quote-copy" id="copyQuote">Copiar cotización <span>⧉</span></button>
+          <button class="btn reserve-btn" id="reserveEvent" type="button">Quiero contratar Eventolens <span>→</span></button>
+          <p class="reserve-note">Sin pago ahora · Queremos conocer tu interés real.</p>
           <p class="fineprint">Los planes base corresponden a la propuesta actual de Eventolens. Los extras del simulador son sugeridos y pueden ajustarse antes de publicarse comercialmente.</p>
         </aside>
       </div>
@@ -258,7 +260,7 @@
         <div class="eyebrow light"><span class="dot"></span> Cada invitado tiene un ángulo distinto</div>
         <h2>No dejes que esos recuerdos<br><span>se pierdan en sus celulares.</span></h2>
         <p>Haz que todos construyan juntos la historia de tu evento.</p>
-        <a class="btn btn-primary big-btn" href="#simulador">Crear mi experiencia <span>→</span></a>
+        <button class="btn btn-primary big-btn fake-door-trigger" type="button">Reservar mi evento <span>→</span></button>
       </div>
     </section>
   </main>
@@ -270,7 +272,100 @@
     <small>© <span id="year"></span> Eventolens. Demo comercial.</small>
   </footer>
 
+  <div class="fake-door-modal" id="fakeDoorModal" aria-hidden="true">
+    <div class="fake-door-backdrop" data-close-fake-door></div>
+    <section class="fake-door-dialog" role="dialog" aria-modal="true" aria-labelledby="fakeDoorTitle">
+      <button class="modal-close" type="button" aria-label="Cerrar" data-close-fake-door>×</button>
+
+      <div class="fake-door-intro" id="fakeDoorIntro">
+        <div class="launch-pill">LANZAMIENTO LIMITADO</div>
+        <div class="modal-brand"><span class="brand-mark" aria-hidden="true"><span></span></span><span>EVENTO<span>LENS</span></span></div>
+        <h2 id="fakeDoorTitle">¡Gracias por querer reservar Eventolens!</h2>
+        <p>Estamos validando nuestra próxima etapa comercial y todavía no habilitamos el pago en línea. Tu interés nos ayuda a saber qué experiencias lanzar primero.</p>
+        <div class="launch-offer"><strong>20% DE DESCUENTO</strong><span>para quienes participen en esta prueba comercial.</span></div>
+        <button class="btn btn-primary modal-primary" id="startSurvey" type="button">Responder y obtener mi 20% <span>→</span></button>
+        <small>Te tomará menos de 1 minuto. No se realizará ningún cobro.</small>
+      </div>
+
+      <form class="experiment-form hidden" id="experimentForm">
+        <div class="survey-progress"><span>PREFERENCIAS DE TU EVENTO</span><b>Encuesta breve</b></div>
+        <div class="survey-summary" id="surveySummary"></div>
+
+        <div class="form-grid two-cols">
+          <label class="field"><span>Nombre <em>opcional</em></span><input type="text" name="name" autocomplete="name" placeholder="Tu nombre"></label>
+          <label class="field"><span>Fecha aproximada del evento</span><input type="date" name="event_date"></label>
+        </div>
+
+        <fieldset class="field-group">
+          <legend>Después de ver Eventolens, ¿qué tan probable sería que lo contrataras?</legend>
+          <div class="choice-grid five">
+            <label><input type="radio" name="purchase_intent" value="1 - Nada probable" required><span>1<small>Nada</small></span></label>
+            <label><input type="radio" name="purchase_intent" value="2 - Poco probable"><span>2<small>Poco</small></span></label>
+            <label><input type="radio" name="purchase_intent" value="3 - Tal vez"><span>3<small>Tal vez</small></span></label>
+            <label><input type="radio" name="purchase_intent" value="4 - Probable"><span>4<small>Sí</small></span></label>
+            <label><input type="radio" name="purchase_intent" value="5 - Muy probable"><span>5<small>Mucho</small></span></label>
+          </div>
+        </fieldset>
+
+        <label class="field"><span>¿Qué función te interesa más?</span>
+          <select name="favorite_feature" required>
+            <option value="" selected disabled>Selecciona una opción</option>
+            <option>Galería colaborativa por QR</option>
+            <option>Fotos y videos de todos los invitados</option>
+            <option>Reel automático con IA</option>
+            <option>Muro en vivo durante el evento</option>
+            <option>Reconocimiento facial</option>
+            <option>Libro digital automático</option>
+          </select>
+        </label>
+
+        <label class="field"><span>¿Qué rango considerarías razonable pagar por una experiencia como Eventolens?</span>
+          <select name="expected_budget" required>
+            <option value="" selected disabled>Selecciona un rango</option>
+            <option>Menos de $100 USD</option>
+            <option>$100 – $199 USD</option>
+            <option>$200 – $299 USD</option>
+            <option>$300 – $399 USD</option>
+            <option>$400 USD o más</option>
+          </select>
+        </label>
+
+        <label class="field"><span>¿Qué podría impedir que lo contrataras? <em>opcional</em></span><textarea name="objection" rows="3" placeholder="Precio, dudas, funciones, no tengo evento próximo, etc."></textarea></label>
+
+        <div class="form-grid two-cols">
+          <label class="field"><span>Correo <em>opcional</em></span><input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com"></label>
+          <label class="field"><span>WhatsApp <em>opcional</em></span><input type="tel" name="whatsapp" autocomplete="tel" placeholder="+52 998..."></label>
+        </div>
+
+        <label class="consent-line"><input type="checkbox" name="contact_permission" value="Sí"><span>Acepto que Eventolens me contacte sobre el lanzamiento y promociones. <b>Opcional.</b></span></label>
+
+        <input type="hidden" name="event_type" id="formEventType">
+        <input type="hidden" name="guests" id="formGuests">
+        <input type="hidden" name="plan" id="formPlan">
+        <input type="hidden" name="estimated_total" id="formTotal">
+        <input type="hidden" name="coupon_before_survey" id="formCoupon">
+        <input type="hidden" name="source" value="Landing Page Eventolens - Fake Door">
+
+        <button class="btn btn-primary modal-primary" type="submit" id="submitSurvey">Enviar respuestas y obtener mi 20% <span>→</span></button>
+        <p class="form-privacy">Tus respuestas se utilizarán únicamente para evaluar el interés comercial en Eventolens.</p>
+      </form>
+
+      <div class="survey-success hidden" id="surveySuccess">
+        <div class="success-icon">✓</div>
+        <div class="eyebrow"><span class="dot"></span> RESPUESTA REGISTRADA</div>
+        <h2>Tu descuento de lanzamiento está listo.</h2>
+        <p>Gracias por ayudarnos a validar Eventolens. Tu cupón para esta prueba es:</p>
+        <button class="launch-code" id="launchCode" type="button" title="Copiar cupón">LANZA20</button>
+        <span class="success-help">20% de descuento · toca el código para copiarlo</span>
+        <button class="btn btn-primary modal-primary" id="applyLaunchCoupon" type="button">Ver mi precio con 20% <span>→</span></button>
+      </div>
+    </section>
+  </div>
+
+  <div class="admin-status" id="adminStatus" hidden></div>
+
   <div class="toast" id="toast" role="status">Cotización copiada ✓</div>
+  <script src="experiment-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

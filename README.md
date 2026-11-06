@@ -42,3 +42,14 @@ La web quedará en una dirección similar a:
 El juego estará en:
 
 `https://TU-USUARIO.github.io/NOMBRE-DEL-REPOSITORIO/game.html`
+
+
+## Experimento Fake Door comercial
+
+La landing incluye un CTA **Quiero contratar Eventolens**. Al pulsarlo se abre el experimento Fake Door, se ofrece un 20% de descuento y se captura una encuesta breve.
+
+La interfaz está lista, pero para recibir respuestas de dispositivos distintos hay que conectar un endpoint en `experiment-config.js`. Mientras `endpoint` esté vacío, las respuestas se guardan solo en el navegador que está haciendo la prueba (`localStorage`).
+
+Para comprobar el estado de conexión sin mostrarlo al público, abre la landing con `?admin=1`.
+
+Cupón del experimento: `LANZA20` (20%).
