@@ -62,3 +62,7 @@ Esta versión ya incluye el endpoint de Google Apps Script del experimento. Las 
 
 ## v8 - Envío Google Sheets
 El formulario Fake Door usa un POST HTML tradicional a Google Apps Script mediante un iframe oculto. Esto evita problemas de CORS de GitHub Pages y entrega los campos mediante `e.parameter`.
+
+
+## Métricas E2
+Esta versión registra VISITA, CTA y ENCUESTA_COMPLETADA en la pestaña `Métricas` del mismo Google Sheet. Para atribuir el QR, usa el enlace de la landing con `?src=qr`. El código actualizado de Apps Script está en `APPS-SCRIPT-METRICAS.txt`.

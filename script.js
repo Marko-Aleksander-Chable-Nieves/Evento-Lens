@@ -119,6 +119,100 @@ function saveExperimentEvent(type, payload={}){
   localStorage.setItem('eventolensExperimentEvents', JSON.stringify(events.slice(-300)));
 }
 
+
+// ===== Métricas E2: visitas, CTA y encuestas completadas =====
+const metricParams = new URLSearchParams(location.search);
+const metricSource = metricParams.get('src') || metricParams.get('utm_source') || 'directo';
+
+function getOrCreateVisitorId(){
+  let id=localStorage.getItem('eventolensVisitorId');
+  if(!id){
+    id='vis_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);
+    localStorage.setItem('eventolensVisitorId',id);
+  }
+  return id;
+}
+
+function getOrCreateSessionId(){
+  let id=sessionStorage.getItem('eventolensSessionId');
+  if(!id){
+    id='ses_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);
+    sessionStorage.setItem('eventolensSessionId',id);
+  }
+  return id;
+}
+
+function getDeviceType(){
+  const ua=navigator.userAgent || '';
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(ua) ? 'Móvil' : 'Computadora';
+}
+
+function jsonpExperiment(params, timeoutMs=10000){
+  if(!experimentCfg.endpoint) return Promise.resolve({ok:false,error:'Sin endpoint'});
+  return new Promise(resolve=>{
+    const callbackName='__eventolensCallback_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+    const search=new URLSearchParams(params);
+    search.set('callback',callbackName);
+    const script=document.createElement('script');
+    let settled=false;
+    const cleanup=()=>{
+      if(settled) return;
+      settled=true;
+      try{delete window[callbackName]}catch(e){window[callbackName]=undefined}
+      script.remove();
+    };
+    const timer=setTimeout(()=>{
+      cleanup();
+      resolve({ok:false,error:'Tiempo de espera agotado'});
+    },timeoutMs);
+    window[callbackName]=(data)=>{
+      clearTimeout(timer);
+      cleanup();
+      resolve({ok:!!data?.ok,data});
+    };
+    script.onerror=()=>{
+      clearTimeout(timer);
+      cleanup();
+      resolve({ok:false,error:'No se pudo contactar Apps Script'});
+    };
+    script.src=experimentCfg.endpoint+'?'+search.toString();
+    script.async=true;
+    document.head.appendChild(script);
+  });
+}
+
+async function sendMetric(metric, extra={}){
+  const snap=experimentSnapshot();
+  return jsonpExperiment({
+    action:'metric',
+    metric,
+    sessionId:getOrCreateSessionId(),
+    visitorId:getOrCreateVisitorId(),
+    device:getDeviceType(),
+    source:metricSource,
+    origin:extra.origin || '',
+    tipoEvento:snap.event_type || '',
+    invitados:snap.guests || '',
+    plan:snap.plan || '',
+    precioEstimado:snap.estimated_total || '',
+    pageUrl:location.href,
+    referrer:document.referrer || '',
+    clientTime:new Date().toISOString()
+  },8000);
+}
+
+function sendMetricOnce(key, metric, extra={}){
+  const storageKey='eventolensMetric_'+key;
+  if(sessionStorage.getItem(storageKey)) return;
+  sessionStorage.setItem(storageKey,'1');
+  sendMetric(metric,extra).then(result=>{
+    if(!result.ok){
+      // Si falló, permitimos reintentar en la misma sesión.
+      sessionStorage.removeItem(storageKey);
+    }
+  });
+}
+
 async function postExperiment(payload){
   if(!experimentCfg.endpoint) return {mode:'local', ok:false, error:'Sin endpoint configurado'};
 
@@ -183,6 +277,7 @@ async function postExperiment(payload){
 function openFakeDoor(origin='cta'){
   const snap=experimentSnapshot();
   saveExperimentEvent('fake_door_open',{origin,...snap});
+  sendMetricOnce('cta','CTA',{origin});
   fakeDoorIntro.classList.remove('hidden');
   experimentForm.classList.add('hidden');
   surveySuccess.classList.add('hidden');
@@ -235,6 +330,7 @@ experimentForm?.addEventListener('submit',async e=>{
     experimentForm.classList.add('hidden');
     surveySuccess.classList.remove('hidden');
     saveExperimentEvent('survey_success',{storage:result.mode,server:result.data||null});
+    sendMetricOnce('survey_complete','ENCUESTA_COMPLETADA',{origin:'fake_door'});
   }else{
     saveExperimentEvent('survey_error',{storage:result.mode,error:result.error||'Error desconocido'});
     const toast=document.getElementById('toast');
@@ -261,6 +357,9 @@ document.getElementById('applyLaunchCoupon')?.addEventListener('click',()=>{
   document.getElementById('simulador')?.scrollIntoView({behavior:'smooth',block:'start'});
   saveExperimentEvent('launch_coupon_applied',{coupon:code,...experimentSnapshot()});
 });
+
+// Registra una sola visita por sesión de navegador/pestaña.
+sendMetricOnce('visit','VISITA');
 
 // Modo de administración local: agrega ?admin=1 a la URL para comprobar la conexión.
 if(new URLSearchParams(location.search).get('admin')==='1' && adminStatus){
