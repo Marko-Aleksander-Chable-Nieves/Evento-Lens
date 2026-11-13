@@ -143,8 +143,22 @@ function getOrCreateSessionId(){
 }
 
 function getDeviceType(){
-  const ua=navigator.userAgent || '';
-  return /Mobi|Android|iPhone|iPad|iPod/i.test(ua) ? 'Móvil' : 'Computadora';
+  try{
+    if(navigator.userAgentData && typeof navigator.userAgentData.mobile === 'boolean'){
+      if(navigator.userAgentData.mobile) return 'Móvil';
+    }
+  }catch(e){}
+
+  const ua=(navigator.userAgent || navigator.vendor || '').toLowerCase();
+  if(/iphone|ipod|android.*mobile|windows phone|blackberry|iemobile|opera mini|mobile/.test(ua)) return 'Móvil';
+  if(/ipad|tablet|android/.test(ua)) return 'Tablet';
+
+  const touchPoints=navigator.maxTouchPoints || 0;
+  const shortSide=Math.min(screen.width || 9999, screen.height || 9999);
+  if(touchPoints > 1 && shortSide <= 600) return 'Móvil';
+  if(touchPoints > 1 && shortSide <= 1100) return 'Tablet';
+
+  return 'Computadora';
 }
 
 function jsonpExperiment(params, timeoutMs=10000){
