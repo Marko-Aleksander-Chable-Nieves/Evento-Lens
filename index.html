@@ -1,371 +1,202 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0c0914" />
-  <meta name="description" content="Eventolens: captura tu evento a través de los ojos de todos tus invitados. Galería colaborativa, IA, reels, muro en vivo y álbum inteligente." />
-  <title>Eventolens | Tu evento desde todos los ángulos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EventoLens | Captura cada momento, juntos</title>
+  <meta name="description" content="EventoLens reúne las fotos y videos de todos tus invitados en una sola experiencia digital.">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <header class="topbar">
-    <a class="brand" href="#inicio" aria-label="Eventolens - Inicio">
-      <span class="brand-mark" aria-hidden="true"><span></span></span>
-      <span>EVENTO<span>LENS</span></span>
-    </a>
-    <nav class="nav" aria-label="Navegación principal">
-      <a href="#como-funciona">Cómo funciona</a>
-      <a href="#experiencia">Experiencia</a>
-      <a href="#planes">Planes</a>
-      <a href="#simulador">Simulador</a>
-      <a href="game.html">Juego</a>
-    </nav>
-    <a class="btn btn-small" href="#simulador">Cotizar evento</a>
-    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
-  </header>
+  <div class="page-shell">
+    <header class="site-header">
+      <a href="#inicio" class="brand" aria-label="EventoLens inicio">
+        <span class="brand-orbit"><span class="brand-core"></span></span>
+        <span>EVENTO<span>LENS</span></span>
+      </a>
+      <nav>
+        <a href="#como">Cómo funciona</a>
+        <a href="#experiencia">Experiencia</a>
+        <a href="#planes">Planes</a>
+        <a href="#simulador">Simulador</a>
+        <a href="game.html">Juego</a>
+      </nav>
+      <a class="btn btn-light" href="#simulador">Cotizar evento</a>
+    </header>
 
-  <main>
-    <section class="hero section" id="inicio">
-      <div class="hero-copy reveal">
-        <div class="eyebrow"><span class="dot"></span> Tus invitados. Tus recuerdos. Una sola experiencia.</div>
-        <h1>Tu evento visto<br><span>por todos.</span></h1>
-        <p class="hero-lead">Eventolens convierte las fotos, videos, audios y dedicatorias de tus invitados en una experiencia colaborativa e inteligente, sin instalar ninguna app.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#simulador">Simular mi evento <span>→</span></a>
-          <a class="btn btn-ghost" href="#video">Ver cómo se vive <span>▶</span></a>
-        </div>
-        <div class="hero-trust">
-          <div><strong>0 apps</strong><span>Solo escanea el QR</span></div>
-          <div><strong>1 acceso</strong><span>Fotos, video y voz</span></div>
-          <div><strong>IA</strong><span>Ordena y selecciona</span></div>
-        </div>
-      </div>
-
-      <div class="hero-visual reveal" id="video">
-        <div class="orb orb-one"></div>
-        <div class="orb orb-two"></div>
-        <div class="phone-wrap">
-          <div class="phone">
-            <div class="phone-speaker"></div>
-            <video id="promoVideo" controls autoplay muted playsinline loop preload="auto" poster="assets/video-poster.jpg">
-              <source src="assets/eventolens-publicidad.mp4" type="video/mp4" />
-              Tu navegador no puede reproducir este video.
-            </video>
-            <button class="sound-hint" id="soundHint" type="button" aria-label="Activar audio del video">🔊 Activar audio</button>
-          </div>
-          <div class="floating-card card-live"><span class="live-dot"></span><div><b>EN VIVO</b><small>Los recuerdos aparecen al instante</small></div></div>
-          <div class="floating-card card-ai"><span class="spark">✦</span><div><b>IA organizando</b><small>Momentos · emociones · personas</small></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="marquee" aria-label="Características principales">
-      <div class="marquee-track">
-        <span>FOTOS</span><i>✦</i><span>VIDEOS</span><i>✦</i><span>MENSAJES DE VOZ</span><i>✦</i><span>DEDICATORIAS</span><i>✦</i><span>IA</span><i>✦</i><span>MURO EN VIVO</span><i>✦</i>
-        <span>FOTOS</span><i>✦</i><span>VIDEOS</span><i>✦</i><span>MENSAJES DE VOZ</span><i>✦</i><span>DEDICATORIAS</span><i>✦</i><span>IA</span><i>✦</i><span>MURO EN VIVO</span><i>✦</i>
-      </div>
-    </section>
-
-    <section class="section how" id="como-funciona">
-      <div class="section-heading reveal">
-        <div class="eyebrow"><span class="dot"></span> Sencillo para todos</div>
-        <h2>Un QR. <span>Todo el evento.</span></h2>
-        <p>No obligues a tus invitados a descargar una aplicación. Eventolens funciona desde el navegador.</p>
-      </div>
-      <div class="steps">
-        <article class="step reveal"><div class="step-num">01</div><div class="step-icon">⌁</div><h3>Crea tu evento</h3><p>Configura boda, XV años, aniversario, cumpleaños o evento corporativo. Obtienes un QR, landing y URL personalizados.</p></article>
-        <article class="step reveal"><div class="step-num">02</div><div class="step-icon">⌗</div><h3>Comparte el QR</h3><p>Los invitados escanean, entran y empiezan a aportar recuerdos desde su celular.</p></article>
-        <article class="step reveal"><div class="step-num">03</div><div class="step-icon">◉</div><h3>Todos capturan</h3><p>Fotos, videos, mensajes de voz y dedicatorias se concentran en la experiencia del evento.</p></article>
-        <article class="step reveal"><div class="step-num">04</div><div class="step-icon">✦</div><h3>La IA hace magia</h3><p>Organiza momentos, reduce duplicados, detecta contenido borroso y ayuda a seleccionar los mejores recuerdos.</p></article>
-      </div>
-    </section>
-
-    <section class="section experience" id="experiencia">
-      <div class="experience-grid">
-        <div class="experience-copy reveal">
-          <div class="eyebrow"><span class="dot"></span> Más que una galería</div>
-          <h2>Recuerdos con<br><span>historia.</span></h2>
-          <p>Eventolens está pensado para reconocer momentos clave del evento —ceremonia, primeros bailes, brindis, pastel, fiesta y sesiones familiares— y convertir el caos de cientos de archivos en algo disfrutable.</p>
-          <ul class="feature-list">
-            <li><span>✓</span><div><b>Álbum inteligente</b><small>Menos duplicados y contenido repetido.</small></div></li>
-            <li><span>✓</span><div><b>Storytelling automático</b><small>Contenido social y resúmenes construidos con fotos, video, audio y música.</small></div></li>
-            <li><span>✓</span><div><b>Insights del evento</b><small>Momentos más fotografiados, reacciones y participación.</small></div></li>
-          </ul>
-        </div>
-        <div class="experience-board reveal">
-          <div class="board-top"><span>EVENTOLENS AI</span><span class="status"><i></i> Procesando</span></div>
-          <div class="board-main">
-            <div class="metric big"><span>Momento destacado</span><strong>Primer baile</strong><small>Mayor concentración de fotos y reacciones</small></div>
-            <div class="metric"><span>Recuerdos</span><strong>1,248</strong><small>capturados por invitados</small></div>
-            <div class="metric"><span>Participación</span><strong>87%</strong><small>de los asistentes</small></div>
-          </div>
-          <div class="moment-bars">
-            <div><span>Ceremonia</span><i style="--w:62%"></i></div>
-            <div><span>Primer baile</span><i style="--w:94%"></i></div>
-            <div><span>Brindis</span><i style="--w:72%"></i></div>
-            <div><span>Fiesta</span><i style="--w:86%"></i></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section live-wall">
-      <div class="live-inner reveal">
+    <main>
+      <section class="hero" id="inicio">
         <div>
-          <div class="eyebrow light"><span class="dot"></span> Durante el evento</div>
-          <h2>Haz que cada foto<br>se vuelva parte <span>del show.</span></h2>
-          <p>Con el muro en vivo, el contenido de tus invitados puede aparecer en pantallas, proyectores o TV mientras el evento sucede, con moderación asistida por IA.</p>
+          <span class="eyebrow">Tu evento desde los ojos de todos</span>
+          <h1>Un solo QR.<br><span>Todos los recuerdos.</span></h1>
+          <p>Centraliza las fotos y videos de tus invitados, ordénalos y conviértelos en una experiencia digital fácil de compartir.</p>
+          <div class="hero-actions">
+            <a class="btn btn-gradient" href="#simulador">Cotizar mi evento</a>
+            <a class="btn btn-outline" href="reservar.html">Pagar para reservar evento</a>
+          </div>
+          <small class="helper">La encuesta es opcional. Puedes reservar directamente.</small>
         </div>
-        <div class="screen-mock">
-          <div class="screen-head"><div class="screen-logo"><span class="brand-mark tiny"><span></span></span>EVENTOLENS</div><span>LIVE ●</span></div>
-          <div class="screen-grid">
-            <div class="ph ph1" role="img" aria-label="Boda: brindis de novios e invitados" style="background-image:url('https://images.unsplash.com/photo-1761499101934-4c79d09b14e9?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000')"></div>
-            <div class="ph ph2" role="img" aria-label="Quince años: festejo con vestido de gala" style="background-image:url('https://images.unsplash.com/photo-1767591311431-5bfb8cc48bdf?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000')"></div>
-            <div class="ph ph3" role="img" aria-label="Fiesta: amigos bailando" style="background-image:url('https://images.unsplash.com/photo-1775037231648-51b6f25f84df?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000')"></div>
-            <div class="ph ph4" role="img" aria-label="Cumpleaños: celebración con globos" style="background-image:url('https://images.unsplash.com/photo-1776162241196-baecafaeb305?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000')"></div>
-            <div class="ph ph5" role="img" aria-label="Boda: invitados en la pista de baile" style="background-image:url('https://images.unsplash.com/photo-1739295195205-d4c8f075cbcd?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000')"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section pricing" id="planes">
-      <div class="section-heading reveal">
-        <div class="eyebrow"><span class="dot"></span> Elige tu experiencia</div>
-        <h2>Planes para <span>cada evento.</span></h2>
-        <p>Precios base tomados de la propuesta actual de Eventolens. Puedes personalizar tu experiencia en el simulador.</p>
-      </div>
-      <div class="pricing-grid">
-        <article class="price-card reveal" data-plan-jump="basic">
-          <div class="plan-top"><span>BÁSICO</span><div class="price"><small>$</small>100 <em>USD</em></div><p>Para eventos íntimos que quieren reunir sus recuerdos en un solo lugar.</p></div>
-          <ul><li>✓ Hasta 500 fotos</li><li>✓ QR único del evento</li><li>✓ Galería del evento</li><li class="muted">— Videos</li><li class="muted">— Reel automático IA</li><li class="muted">— Muro en vivo</li></ul>
-          <a class="plan-button" href="#simulador">Configurar Básico</a>
-        </article>
-        <article class="price-card featured reveal" data-plan-jump="premium">
-          <div class="popular">MÁS COMPLETO</div>
-          <div class="plan-top"><span>PREMIUM</span><div class="price"><small>$</small>250 <em>USD</em></div><p>La experiencia colaborativa ideal para vivir y compartir el evento en tiempo real.</p></div>
-          <ul><li>✓ Fotos ilimitadas</li><li>✓ Videos</li><li>✓ 1 Reel automático con IA</li><li>✓ Muro en vivo</li><li>✓ QR + galería</li><li class="muted">— Reconocimiento facial</li></ul>
-          <a class="plan-button bright" href="#simulador">Configurar Premium</a>
-        </article>
-        <article class="price-card reveal" data-plan-jump="elite">
-          <div class="plan-top"><span>ELITE</span><div class="price"><small>$</small>350 <em>USD</em></div><p>Para quienes quieren la experiencia Eventolens más avanzada de principio a fin.</p></div>
-          <ul><li>✓ Fotos ilimitadas + videos</li><li>✓ Reel automático con IA</li><li>✓ Muro en video</li><li>✓ Reconocimiento facial</li><li>✓ Libro digital automático</li><li>✓ QR + galería</li></ul>
-          <a class="plan-button" href="#simulador">Configurar Elite</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section simulator" id="simulador">
-      <div class="section-heading left reveal">
-        <div class="eyebrow"><span class="dot"></span> Simulador de experiencia</div>
-        <h2>Arma tu <span>Eventolens.</span></h2>
-        <p>Cuéntanos cómo será tu evento. El simulador te recomienda un plan y calcula una estimación instantánea.</p>
-      </div>
-
-      <div class="sim-grid reveal">
-        <div class="sim-controls">
-          <div class="control-block">
-            <label for="eventType">Tipo de evento</label>
-            <div class="select-wrap"><select id="eventType"><option>Boda</option><option>XV años</option><option>Aniversario</option><option>Cumpleaños</option><option>Evento corporativo</option><option>Otro evento</option></select></div>
-          </div>
-
-          <div class="control-block">
-            <div class="label-row"><label for="guests">Invitados estimados</label><strong><span id="guestValue">150</span> personas</strong></div>
-            <input type="range" id="guests" min="20" max="500" step="10" value="150" />
-            <div class="range-labels"><span>20</span><span>500+</span></div>
-          </div>
-
-          <div class="control-block">
-            <label>Selecciona un plan</label>
-            <div class="plan-switcher">
-              <button class="plan-option" data-plan="basic"><span>Básico</span><b>$100</b></button>
-              <button class="plan-option active" data-plan="premium"><span>Premium</span><b>$250</b></button>
-              <button class="plan-option" data-plan="elite"><span>Elite</span><b>$350</b></button>
-            </div>
-            <button id="recommendBtn" class="recommend-btn">✦ Recomiéndame un plan</button>
-            <div id="recommendation" class="recommendation" aria-live="polite"></div>
-          </div>
-
-          <div class="control-block">
-            <div class="label-row"><label>Extras sugeridos</label><small>Precios estimados</small></div>
-            <div class="extras">
-              <label class="extra"><input type="checkbox" data-extra="highlight" data-price="60"><span class="check"></span><div><b>Resumen automático de 1 minuto</b><small>Una pieza rápida con los mejores momentos.</small></div><strong>+$60</strong></label>
-              <label class="extra"><input type="checkbox" data-extra="emotional" data-price="120"><span class="check"></span><div><b>Video emocional de 5 minutos</b><small>Storytelling extendido del evento.</small></div><strong>+$120</strong></label>
-              <label class="extra"><input type="checkbox" data-extra="voices" data-price="30"><span class="check"></span><div><b>Cápsula de mensajes de voz</b><small>Compilación de mensajes de tus invitados.</small></div><strong>+$30</strong></label>
-              <label class="extra"><input type="checkbox" data-extra="branding" data-price="35"><span class="check"></span><div><b>Personalización visual avanzada</b><small>Landing con estilo, colores y detalles del evento.</small></div><strong>+$35</strong></label>
-            </div>
-          </div>
-
-          <div class="control-block coupon-control">
-            <div class="label-row"><label for="couponInput">Cupón de descuento</label><small>¿Ganaste uno en el juego?</small></div>
-            <div class="coupon-input-row">
-              <input id="couponInput" type="text" inputmode="text" autocomplete="off" placeholder="Ej. LENS5" maxlength="12" />
-              <button id="applyCoupon" type="button">Aplicar</button>
-            </div>
-            <div id="couponStatus" class="coupon-status" aria-live="polite"></div>
-            <a class="play-coupon-link" href="game.html">🎮 Juega EventoLens Runner y gana un cupón</a>
+        <div class="hero-card">
+          <div class="mock-phone">
+            <div class="mock-head">EventoLens</div>
+            <div class="mock-qr">QR</div>
+            <div class="mock-title">Boda de Mariana & Carlos</div>
+            <div class="mock-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           </div>
         </div>
+      </section>
 
-        <aside class="quote-card">
-          <div class="quote-head"><div><span>TU ESTIMACIÓN</span><h3 id="quoteEvent">Boda · 150 invitados</h3></div><span class="quote-badge" id="quotePlanBadge">PREMIUM</span></div>
-          <div class="quote-line"><span>Plan <span id="quotePlan">Premium</span></span><strong id="basePrice">$250</strong></div>
-          <div id="extrasSummary"></div>
-          <div id="discountLine" class="discount-line hidden"><span>Descuento <b id="discountCode">LENS5</b></span><strong id="discountAmount">−$0</strong></div>
-          <div class="quote-total"><div><span>Total estimado</span><small>USD · precio orientativo</small></div><strong id="totalPrice">$250</strong></div>
-          <div class="included" id="includedFeatures"></div>
-          <button class="btn btn-primary quote-copy" id="copyQuote">Copiar cotización <span>⧉</span></button>
-          <button class="btn reserve-btn" id="reserveEvent" type="button">Quiero contratar Eventolens <span>→</span></button>
-          <p class="reserve-note">Sin pago ahora · Queremos conocer tu interés real.</p>
-          <p class="fineprint">Los planes base corresponden a la propuesta actual de Eventolens. Los extras del simulador son sugeridos y pueden ajustarse antes de publicarse comercialmente.</p>
+      <section class="section" id="como">
+        <span class="eyebrow">Cómo funciona</span>
+        <h2>Menos caos. Más recuerdos.</h2>
+        <div class="steps">
+          <article><b>01</b><h3>Crea tu evento</h3><p>Define tu evento y obtén un acceso único.</p></article>
+          <article><b>02</b><h3>Comparte el QR</h3><p>Los invitados ingresan sin instalar una app.</p></article>
+          <article><b>03</b><h3>Reúne el contenido</h3><p>Fotos y videos llegan a una sola galería.</p></article>
+          <article><b>04</b><h3>Revive el evento</h3><p>Organiza y comparte tus mejores recuerdos.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="experiencia">
+        <div class="split-card">
+          <div>
+            <span class="eyebrow">Experiencia EventoLens</span>
+            <h2>Diseñado para participar en segundos.</h2>
+            <p>El invitado escanea el QR, abre la experiencia y comparte su contenido. Sin descargas, sin perseguir fotos después del evento.</p>
+          </div>
+          <div class="feature-list">
+            <div><strong>QR único</strong><span>Acceso inmediato al evento.</span></div>
+            <div><strong>Galería colaborativa</strong><span>Todo el contenido en un solo lugar.</span></div>
+            <div><strong>Funciones inteligentes</strong><span>Organización, reels y extras según el plan.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="planes">
+        <span class="eyebrow">Planes</span>
+        <h2>Elige la experiencia para tu evento.</h2>
+        <div class="plan-grid">
+          <article class="plan-card" data-plan-card="basic">
+            <span>Básico</span><h3>$100 <small>USD</small></h3>
+            <ul><li>Hasta 500 fotos</li><li>QR único</li><li>Galería del evento</li></ul>
+            <button class="plan-select" data-plan="basic">Elegir Básico</button>
+          </article>
+          <article class="plan-card featured" data-plan-card="premium">
+            <span>Premium</span><h3>$250 <small>USD</small></h3>
+            <ul><li>Fotos ilimitadas</li><li>Videos</li><li>1 reel automático</li><li>Muro en vivo</li></ul>
+            <button class="plan-select" data-plan="premium">Elegir Premium</button>
+          </article>
+          <article class="plan-card" data-plan-card="elite">
+            <span>Elite</span><h3>$350 <small>USD</small></h3>
+            <ul><li>Fotos y videos ilimitados</li><li>Reel automático</li><li>Reconocimiento facial</li><li>Libro digital</li></ul>
+            <button class="plan-select" data-plan="elite">Elegir Elite</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="section simulator" id="simulador">
+        <div class="sim-left">
+          <span class="eyebrow">Simulador</span>
+          <h2>Cotiza tu evento.</h2>
+          <p class="section-copy">Ajusta los datos para obtener una estimación instantánea.</p>
+
+          <label>Tipo de evento
+            <select id="eventType">
+              <option>Boda</option><option>XV años</option><option>Cumpleaños</option><option>Corporativo</option><option>Otro evento</option>
+            </select>
+          </label>
+
+          <div class="range-head"><label for="guests">Invitados estimados</label><strong id="guestsLabel">150 personas</strong></div>
+          <input id="guests" type="range" min="20" max="500" step="10" value="150">
+          <div class="range-scale"><span>20</span><span>500+</span></div>
+
+          <h3>Selecciona un plan</h3>
+          <div class="sim-plan-row">
+            <button data-sim-plan="basic"><span>Básico</span><b>$100</b></button>
+            <button class="active" data-sim-plan="premium"><span>Premium</span><b>$250</b></button>
+            <button data-sim-plan="elite"><span>Elite</span><b>$350</b></button>
+          </div>
+          <button id="recommendPlan" class="text-button">✦ Recomiéndame un plan</button>
+
+          <hr>
+          <div class="subhead"><h3>Extras sugeridos</h3><span>Precios estimados</span></div>
+          <div class="extras">
+            <label><input type="checkbox" data-extra="60" data-extra-name="Resumen automático de 1 minuto"><span><b>Resumen automático de 1 minuto</b><small>Una pieza rápida con los mejores momentos.</small></span><strong>+$60</strong></label>
+            <label><input type="checkbox" data-extra="120" data-extra-name="Video emocional de 5 minutos"><span><b>Video emocional de 5 minutos</b><small>Storytelling extendido del evento.</small></span><strong>+$120</strong></label>
+            <label><input type="checkbox" data-extra="30" data-extra-name="Cápsula de mensajes de voz"><span><b>Cápsula de mensajes de voz</b><small>Compilación de mensajes de tus invitados.</small></span><strong>+$30</strong></label>
+            <label><input type="checkbox" data-extra="35" data-extra-name="Personalización visual avanzada"><span><b>Personalización visual avanzada</b><small>Landing con estilo, colores y detalles del evento.</small></span><strong>+$35</strong></label>
+          </div>
+          <hr>
+          <div class="coupon-row">
+            <div><h3>Cupón de descuento</h3><small>¿Ganaste uno en el juego?</small></div>
+            <div class="coupon-input"><input id="coupon" placeholder="EJ. LENS5"><button id="applyCoupon">Aplicar</button></div>
+          </div>
+          <div id="couponMsg" class="coupon-msg">Escribe un cupón para aplicarlo.</div>
+          <a class="game-link" href="game.html">🎮 Juega EventoLens Runner y gana un cupón</a>
+        </div>
+
+        <aside class="estimate-card">
+          <div class="estimate-top"><span>TU ESTIMACIÓN</span><em id="estimateBadge">PREMIUM</em></div>
+          <h2 id="estimateTitle">Boda · 150 invitados</h2>
+          <div id="estimateLines" class="estimate-lines"></div>
+          <div class="total-row"><div><strong>Total estimado</strong><small>USD · precio orientativo</small></div><b id="estimateTotal">$250</b></div>
+          <div id="estimateIncludes" class="includes">Incluye: Fotos ilimitadas · Videos · 1 Reel automático con IA · Muro en vivo · QR + galería</div>
+          <button id="copyEstimate" class="btn btn-gradient full">Copiar cotización</button>
+          <button id="openInterest" class="btn btn-outline full">Quiero contratar Eventolens →</button>
+          <a id="directPay" class="btn btn-pay full" href="reservar.html?plan=premium">Pagar para reservar evento</a>
+          <small class="validation-price">Reserva de validación: Básico $10 · Premium $20 · Elite $30 MXN.</small>
+          <small class="muted-note">La encuesta es opcional. Puedes pagar la reserva directamente.</small>
         </aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="section assistant-section">
-      <div class="assistant-card reveal">
-        <div class="assistant-icon">✦</div>
-        <div><span>ASISTENTE DEL EVENTO</span><h2>“¿A qué hora es el brindis?”</h2><p>Eventolens contempla un asistente virtual para responder preguntas útiles de los invitados: mesas, horarios, baños, hashtag y más.</p></div>
-        <div class="chat-preview">
-          <div class="bubble user-bubble">¿Dónde está mi mesa?</div>
-          <div class="bubble bot-bubble"><b>✦ Eventolens</b><br>Tu mesa es la 12, en la zona Jardín. Te muestro la ubicación.</div>
+      <section class="section demo-data">
+        <div>
+          <span class="eyebrow">Bitácora de conversión</span>
+          <h2>Escenario de demostración.</h2>
+          <p>Estos datos son simulados y sirven únicamente para explicar cómo se mediría el embudo comercial.</p>
         </div>
-      </div>
-    </section>
-
-
-    <section class="section game-promo" id="juego">
-      <div class="game-promo-card reveal">
-        <div class="game-promo-copy">
-          <div class="eyebrow"><span class="dot"></span> EXPERIENCIA INTERACTIVA</div>
-          <h2>Juega <span>EventoLens Runner.</span></h2>
-          <p>Un minijuego estilo Endless Runner integrado a la marca: esquiva obstáculos, suma puntos y descubre mensajes promocionales mientras juegas.</p>
-          <a class="btn btn-primary" href="game.html">Jugar ahora <span>→</span></a>
+        <div class="funnel-row">
+          <div><b>20</b><span>Contactados</span></div><i>→</i><div><b>12</b><span>Interesados</span></div><i>→</i><div><b>8</b><span>Visitas</span></div><i>→</i><div><b>5</b><span>Checkout</span></div><i>→</i><div><b>3</b><span>Preórdenes</span></div>
         </div>
-        <div class="game-promo-visual" aria-hidden="true">
-          <div class="runner-track"><div class="runner-logo"><i></i></div><div class="runner-obstacle"></div><div class="runner-obstacle second"></div></div>
-          <div class="runner-score"><span>SCORE</span><b>0842</b></div>
-          <div class="runner-ad">PUBLICIDAD · EVENTOLENS PREMIUM</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section final-cta">
-      <div class="cta-box reveal">
-        <div class="eyebrow light"><span class="dot"></span> Cada invitado tiene un ángulo distinto</div>
-        <h2>No dejes que esos recuerdos<br><span>se pierdan en sus celulares.</span></h2>
-        <p>Haz que todos construyan juntos la historia de tu evento.</p>
-        <button class="btn btn-primary big-btn fake-door-trigger" type="button">Reservar mi evento <span>→</span></button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><span></span></span><span>EVENTO<span>LENS</span></span></a>
-    <p>Captura el evento a través de los ojos de todos los invitados.</p>
-    <div class="footer-links"><a href="#como-funciona">Cómo funciona</a><a href="#planes">Planes</a><a href="#simulador">Simulador</a><a href="game.html">Juego</a></div>
-    <small>© <span id="year"></span> Eventolens. Demo comercial.</small>
-  </footer>
-
-  <div class="fake-door-modal" id="fakeDoorModal" aria-hidden="true">
-    <div class="fake-door-backdrop" data-close-fake-door></div>
-    <section class="fake-door-dialog" role="dialog" aria-modal="true" aria-labelledby="fakeDoorTitle">
-      <button class="modal-close" type="button" aria-label="Cerrar" data-close-fake-door>×</button>
-
-      <div class="fake-door-intro" id="fakeDoorIntro">
-        <div class="launch-pill">LANZAMIENTO LIMITADO</div>
-        <div class="modal-brand"><span class="brand-mark" aria-hidden="true"><span></span></span><span>EVENTO<span>LENS</span></span></div>
-        <h2 id="fakeDoorTitle">¡Gracias por querer reservar Eventolens!</h2>
-        <p>Estamos validando nuestra próxima etapa comercial y todavía no habilitamos el pago en línea. Tu interés nos ayuda a saber qué experiencias lanzar primero.</p>
-        <div class="launch-offer"><strong>20% DE DESCUENTO</strong><span>para quienes participen en esta prueba comercial.</span></div>
-        <button class="btn btn-primary modal-primary" id="startSurvey" type="button">Responder y obtener mi 20% <span>→</span></button>
-        <small>Te tomará menos de 1 minuto. No se realizará ningún cobro.</small>
-      </div>
-
-      <form class="experiment-form hidden" id="experimentForm">
-        <div class="survey-progress"><span>PREFERENCIAS DE TU EVENTO</span><b>Encuesta breve</b></div>
-        <div class="survey-summary" id="surveySummary"></div>
-
-        <div class="form-grid two-cols">
-          <label class="field"><span>Nombre <em>opcional</em></span><input type="text" name="name" autocomplete="name" placeholder="Tu nombre"></label>
-          <label class="field"><span>Fecha aproximada del evento</span><input type="date" name="event_date"></label>
-        </div>
-
-        <fieldset class="field-group">
-          <legend>Después de ver Eventolens, ¿qué tan probable sería que lo contrataras?</legend>
-          <div class="choice-grid five">
-            <label><input type="radio" name="purchase_intent" value="1 - Nada probable" required><span>1<small>Nada</small></span></label>
-            <label><input type="radio" name="purchase_intent" value="2 - Poco probable"><span>2<small>Poco</small></span></label>
-            <label><input type="radio" name="purchase_intent" value="3 - Tal vez"><span>3<small>Tal vez</small></span></label>
-            <label><input type="radio" name="purchase_intent" value="4 - Probable"><span>4<small>Sí</small></span></label>
-            <label><input type="radio" name="purchase_intent" value="5 - Muy probable"><span>5<small>Mucho</small></span></label>
-          </div>
-        </fieldset>
-
-        <label class="field"><span>¿Qué función te interesa más?</span>
-          <select name="favorite_feature" required>
-            <option value="" selected disabled>Selecciona una opción</option>
-            <option>Galería colaborativa por QR</option>
-            <option>Fotos y videos de todos los invitados</option>
-            <option>Reel automático con IA</option>
-            <option>Muro en vivo durante el evento</option>
-            <option>Reconocimiento facial</option>
-            <option>Libro digital automático</option>
-          </select>
-        </label>
-
-        <label class="field"><span>¿Qué rango considerarías razonable pagar por una experiencia como Eventolens?</span>
-          <select name="expected_budget" required>
-            <option value="" selected disabled>Selecciona un rango</option>
-            <option>Menos de $100 USD</option>
-            <option>$100 – $199 USD</option>
-            <option>$200 – $299 USD</option>
-            <option>$300 – $399 USD</option>
-            <option>$400 USD o más</option>
-          </select>
-        </label>
-
-        <label class="field"><span>¿Qué podría impedir que lo contrataras? <em>opcional</em></span><textarea name="objection" rows="3" placeholder="Precio, dudas, funciones, no tengo evento próximo, etc."></textarea></label>
-
-        <div class="form-grid two-cols">
-          <label class="field"><span>Correo <em>opcional</em></span><input type="email" name="email" autocomplete="email" placeholder="correo@ejemplo.com"></label>
-          <label class="field"><span>WhatsApp <em>opcional</em></span><input type="tel" name="whatsapp" autocomplete="tel" placeholder="+52 998..."></label>
-        </div>
-
-        <label class="consent-line"><input type="checkbox" name="contact_permission" value="Sí"><span>Acepto que Eventolens me contacte sobre el lanzamiento y promociones. <b>Opcional.</b></span></label>
-
-        <input type="hidden" name="event_type" id="formEventType">
-        <input type="hidden" name="guests" id="formGuests">
-        <input type="hidden" name="plan" id="formPlan">
-        <input type="hidden" name="estimated_total" id="formTotal">
-        <input type="hidden" name="coupon_before_survey" id="formCoupon">
-        <input type="hidden" name="source" value="Landing Page Eventolens - Fake Door">
-
-        <button class="btn btn-primary modal-primary" type="submit" id="submitSurvey">Enviar respuestas y obtener mi 20% <span>→</span></button>
-        <p class="form-privacy">Tus respuestas se utilizarán únicamente para evaluar el interés comercial en Eventolens.</p>
-      </form>
-
-      <div class="survey-success hidden" id="surveySuccess">
-        <div class="success-icon">✓</div>
-        <div class="eyebrow"><span class="dot"></span> RESPUESTA REGISTRADA</div>
-        <h2>Tu descuento de lanzamiento está listo.</h2>
-        <p>Gracias por ayudarnos a validar Eventolens. Tu cupón para esta prueba es:</p>
-        <button class="launch-code" id="launchCode" type="button" title="Copiar cupón">LANZA20</button>
-        <span class="success-help">20% de descuento · toca el código para copiarlo</span>
-        <button class="btn btn-primary modal-primary" id="applyLaunchCoupon" type="button">Ver mi precio con 20% <span>→</span></button>
-      </div>
-    </section>
+      </section>
+    </main>
   </div>
 
-  <div class="admin-status" id="adminStatus" hidden></div>
+  <div id="interestModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+      <span class="modal-badge">LANZAMIENTO LIMITADO</span>
+      <div class="modal-brand"><span class="brand-orbit small"><span class="brand-core"></span></span><b>EVENTO<span>LENS</span></b></div>
+      <h2 id="modalTitle">¡Gracias por querer reservar EventoLens!</h2>
+      <p>Estamos validando nuestra próxima etapa comercial. Puedes ayudarnos con una encuesta breve o reservar directamente sin responderla.</p>
+      <div class="discount-box"><strong>20% DE DESCUENTO</strong><span>para quienes participen en esta prueba comercial.</span></div>
+      <button id="showSurvey" class="btn btn-gradient full">Responder y obtener mi 20% →</button>
+      <a id="modalDirectPay" class="btn btn-pay full" href="reservar.html?plan=premium">Pagar para reservar evento</a>
+      <small class="muted-note">La encuesta es opcional.</small>
 
-  <div class="toast" id="toast" role="status">Cotización copiada ✓</div>
+      <form id="surveyForm" class="survey-form" hidden>
+        <div class="form-grid">
+          <label>Nombre<input name="nombre" required></label>
+          <label>Tipo de evento<select name="tipo_evento"><option>Boda</option><option>XV años</option><option>Cumpleaños</option><option>Corporativo</option><option>Otro</option></select></label>
+          <label>Fecha aproximada<input name="fecha_aproximada" type="date"></label>
+          <label>Número de invitados<input name="invitados" type="number" min="1" value="150"></label>
+          <label>Plan elegido<select name="plan"><option>Básico</option><option selected>Premium</option><option>Elite</option></select></label>
+          <label>Probabilidad de contratar<select name="probabilidad"><option>1 - Nada probable</option><option>2 - Poco probable</option><option>3 - Tal vez</option><option>4 - Probable</option><option selected>5 - Muy probable</option></select></label>
+          <label>Función que más valoras<input name="funcion" placeholder="Ej. Reel automático"></label>
+          <label>Precio que considerarías<input name="precio_considerado" placeholder="Ej. $200 – $299 USD"></label>
+          <label class="wide">¿Qué impediría contratarlo?<input name="impedimento" placeholder="Ej. precio, confianza, fecha..."></label>
+          <label>Correo<input name="correo" type="email"></label>
+          <label>WhatsApp<input name="whatsapp"></label>
+          <label class="wide checkline"><input name="acepta_contacto" type="checkbox" value="Sí"><span>Acepto ser contactado para dar seguimiento.</span></label>
+        </div>
+        <button class="btn btn-gradient full" type="submit">Enviar encuesta</button>
+        <div id="surveyStatus" class="survey-status"></div>
+      </form>
+    </div>
+  </div>
+
   <script src="experiment-config.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=11"></script>
 </body>
 </html>
