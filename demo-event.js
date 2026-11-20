@@ -1,0 +1,6 @@
+(() => {
+  const qs=new URLSearchParams(location.search),eventId=qs.get("event")||"EVT-DEMO",planId=(qs.get("plan")||"basic").toLowerCase();
+  const plans={basic:{name:"Básico",features:[["📷","Galería colaborativa"],["🔗","Acceso por QR"],["☁️","Hasta 500 fotos · demo"]]},premium:{name:"Premium",features:[["🎞️","Fotos y videos"],["📺","Muro en vivo · demo"],["✨","Reel automático · simulado"]]},elite:{name:"Elite",features:[["♾️","Contenido ilimitado · demo"],["🙂","Reconocimiento facial · simulado"],["📖","Libro digital · simulado"]]}};
+  const plan=plans[planId]||plans.basic;document.querySelector("#eventCode").textContent=eventId;document.querySelector("#planPill").textContent=`Plan ${plan.name}`;document.querySelector("#featureGrid").innerHTML=plan.features.map(([i,l])=>`<div class="feature-box"><div style="font-size:30px">${i}</div><strong>${l}</strong></div>`).join("");
+  const input=document.querySelector("#photoInput"),gallery=document.querySelector("#gallery");input.addEventListener("change",()=>{[...input.files].slice(0,8).forEach(file=>{if(!file.type.startsWith("image/"))return;const reader=new FileReader();reader.onload=()=>{const d=document.createElement("div");d.className="gallery-card";d.innerHTML='<img alt="Foto de demostración">';d.querySelector("img").src=reader.result;gallery.prepend(d)};reader.readAsDataURL(file)})});
+})();
