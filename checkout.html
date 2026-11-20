@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Reservar evento | EventoLens</title>
   <meta name="description" content="Reserva directa de EventoLens">
-  <link rel="stylesheet" href="payment.css?v=2">
+  <link rel="stylesheet" href="payment.css?v=3">
 </head>
 <body>
 <div class="shell">
@@ -18,11 +18,12 @@
     <section class="card">
       <span class="plan-badge" id="planBadge">Plan</span>
       <h1>Reserva tu evento</h1>
-      <p class="lead">La encuesta de interés es opcional. Si ya decidiste reservar, completa únicamente estos datos y continúa al pago seguro.</p>
+      <p class="lead">La encuesta de interés es opcional. Configura tu evento y paga únicamente el anticipo del 30%.</p>
       <div class="price"><span id="serviceTotal">$—</span> <small>USD · total del servicio</small></div>
       <h3 id="planName">Cargando paquete…</h3>
       <ul class="features" id="planFeatures"></ul>
       <div id="selectedExtras" class="note">Calculando extras seleccionados…</div>
+
       <div class="receipt" style="margin-top:18px">
         <div class="receipt-row"><span>Total del servicio</span><strong id="quoteTotalUsd">—</strong></div>
         <div class="receipt-row"><span>Anticipo para reservar</span><strong>30%</strong></div>
@@ -31,35 +32,65 @@
         <div class="receipt-row"><span>Monto a pagar ahora</span><strong id="depositMxn">—</strong></div>
         <div class="receipt-row"><span>Saldo pendiente</span><strong id="balanceUsd">—</strong></div>
       </div>
-      <div class="note">El QR se genera únicamente cuando Mercado Pago confirma el anticipo. El evento conservará el plan y los extras contratados.</div>
-      <p style="margin-top:18px"><a href="reservar.html">← Cambiar de paquete</a></p>
+
+      <div class="note">El QR se genera únicamente cuando Mercado Pago confirma el anticipo. El evento conservará exactamente el plan y los extras contratados.</div>
+      <p style="margin-top:18px"><a href="index.html#simulador">← Volver al simulador</a></p>
     </section>
 
     <section class="card">
-      <form id="checkoutForm" method="post">
-        <input type="hidden" name="action" value="createCheckout">
-        <input type="hidden" id="planInput" name="plan" value="">
-        <input type="hidden" id="extrasInput" name="extras" value="">
-        <input type="hidden" id="couponInputCheckout" name="coupon" value="">
-        <input type="hidden" id="eventTypeInput" name="eventType" value="">
-        <input type="hidden" id="guestsInput" name="guests" value="">
+      <form id="reservationForm">
+        <input type="hidden" id="planInput" value="">
+        <input type="hidden" id="extrasInput" value="">
+        <input type="hidden" id="couponInputCheckout" value="">
+        <input type="hidden" id="eventTypeInput" value="">
+        <input type="hidden" id="guestsInput" value="">
 
-        <div class="field"><label for="customerName">Nombre</label><input id="customerName" name="customerName" maxlength="80" required autocomplete="name"></div>
-        <div class="field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" maxlength="120" required autocomplete="email"></div>
-        <div class="field"><label for="eventName">Nombre del evento</label><input id="eventName" name="eventName" maxlength="100" required placeholder="Ej. Boda de Mariana y Carlos"></div>
-        <div class="field"><label for="eventDate">Fecha estimada del evento</label><input id="eventDate" name="eventDate" type="date"></div>
+        <div class="field">
+          <label for="customerName">Nombre de quien reserva</label>
+          <input id="customerName" maxlength="80" required autocomplete="name">
+        </div>
 
-        <label class="check"><input type="checkbox" required><span>Acepto los <a href="legal.html#terminos" target="_blank">Términos y Condiciones</a>.</span></label>
-        <label class="check"><input type="checkbox" required><span>He leído el <a href="legal.html#privacidad" target="_blank">Aviso de Privacidad</a>.</span></label>
+        <div class="field">
+          <label for="eventName">Nombre del evento</label>
+          <input id="eventName" maxlength="100" required placeholder="Ej. Boda de Mariana y Carlos">
+        </div>
 
-        <button id="payBtn" class="btn btn-primary btn-block" type="submit">Pagar y reservar con Mercado Pago</button>
-        <p class="note">EventoLens no captura ni almacena número de tarjeta o CVV. El pago se procesa en el entorno seguro de Mercado Pago.</p>
+        <div class="field">
+          <label for="eventDate">Fecha estimada del evento</label>
+          <input id="eventDate" type="date">
+        </div>
+
+        <label class="check">
+          <input id="termsAccepted" type="checkbox" required>
+          <span>Acepto los <a href="legal.html#terminos" target="_blank">Términos y Condiciones</a>.</span>
+        </label>
+
+        <label class="check">
+          <input id="privacyAccepted" type="checkbox" required>
+          <span>He leído el <a href="legal.html#privacidad" target="_blank">Aviso de Privacidad</a>.</span>
+        </label>
       </form>
+
+      <div class="payment-section">
+        <h2>Pago seguro con Mercado Pago</h2>
+        <p class="lead small-lead">Introduce los datos de la tarjeta directamente en el formulario seguro de Mercado Pago.</p>
+        <div id="brickStatus" class="note">Cargando formulario seguro…</div>
+        <div class="brick-wrap">
+          <div id="cardPaymentBrick_container"></div>
+        </div>
+        <p class="note payment-note">
+          EventoLens no recibe ni almacena el número completo de tarjeta ni el CVV.
+          En modo de prueba puedes utilizar cualquiera de las tarjetas oficiales de Mercado Pago y elegir distintos escenarios con el nombre del titular.
+        </p>
+      </div>
     </section>
   </main>
+
   <footer>EventoLens · Experimento True Comercial · <a href="legal.html">Marco legal básico</a></footer>
 </div>
-<script src="payment-config.js?v=2"></script>
-<script src="checkout.js?v=2"></script>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script src="payment-config.js?v=3"></script>
+<script src="checkout.js?v=3"></script>
 </body>
 </html>
