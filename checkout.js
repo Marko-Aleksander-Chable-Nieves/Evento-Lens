@@ -53,7 +53,7 @@
     if (wrap) wrap.style.display = "none";
   }
 
-  function postPaymentToBackend(formData) {
+  function postPaymentToBackend(formData, additionalData) {
     if (submitting) return;
     submitting = true;
 
@@ -63,7 +63,7 @@
     post.style.display = "none";
 
     const payload = {
-      action: "processPayment",
+      action: "processOrder",
       attemptId,
       plan: planId,
       extras: extras.join(","),
@@ -75,6 +75,7 @@
       eventDate: document.querySelector("#eventDate").value || "",
       token: formData.token || "",
       paymentMethodId: formData.payment_method_id || "",
+      paymentTypeId: additionalData?.paymentTypeId || "",
       issuerId: formData.issuer_id || "",
       installments: formData.installments || 1,
       payerEmail: formData.payer?.email || "",
@@ -122,7 +123,7 @@
           setStatus("Formulario seguro listo. Puedes realizar la prueba.", "ok");
         },
 
-        onSubmit: (formData) => {
+        onSubmit: (formData, additionalData) => {
           return new Promise((resolve, reject) => {
             if (submitting) {
               resolve();
@@ -135,13 +136,13 @@
               return;
             }
 
-            if (!formData?.token || !formData?.payment_method_id || !formData?.payer?.email) {
+            if (!formData?.token || !formData?.payment_method_id || !additionalData?.paymentTypeId || !formData?.payer?.email) {
               setStatus("Mercado Pago no entregó todos los datos necesarios del pago.", "error");
               reject();
               return;
             }
 
-            postPaymentToBackend(formData);
+            postPaymentToBackend(formData, additionalData);
             resolve();
           });
         },
