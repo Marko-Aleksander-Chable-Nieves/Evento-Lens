@@ -75,6 +75,23 @@ couponInput?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault
 const queryCoupon=new URLSearchParams(window.location.search).get('coupon');
 if(queryCoupon){applyCoupon(queryCoupon,{silent:true});setTimeout(()=>document.getElementById('simulador')?.scrollIntoView({block:'start'}),120)}
 
+
+function getReservationExtras(){
+  return getActiveExtras().map(item=>item.dataset.extra).filter(Boolean);
+}
+
+function goToReservationCheckout(){
+  const params=new URLSearchParams();
+  params.set('plan',selectedPlan);
+  params.set('extras',getReservationExtras().join(','));
+  if(appliedCoupon) params.set('coupon',appliedCoupon);
+  params.set('eventType',eventType?.value || '');
+  params.set('guests',guests?.value || '');
+  location.href='checkout.html?'+params.toString();
+}
+
+document.getElementById('payReserveEvent')?.addEventListener('click',goToReservationCheckout);
+
 const copyQuoteBtn=document.getElementById('copyQuote');
 copyQuoteBtn?.addEventListener('click',async()=>{
   const plan=plans[selectedPlan];const activeExtras=getActiveExtras();const extraText=activeExtras.length?activeExtras.map(x=>`+ ${x.closest('.extra').querySelector('b').textContent} (${formatUSD(Number(x.dataset.price))})`).join('\n'):'Sin extras';
