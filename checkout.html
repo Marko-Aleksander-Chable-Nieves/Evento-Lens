@@ -19,10 +19,19 @@
       <span class="plan-badge" id="planBadge">Plan</span>
       <h1>Reserva tu evento</h1>
       <p class="lead">La encuesta de interés es opcional. Si ya decidiste reservar, completa únicamente estos datos y continúa al pago seguro.</p>
-      <div class="price"><span id="planPrice">$—</span> <small>MXN · preventa académica</small></div>
+      <div class="price"><span id="serviceTotal">$—</span> <small>USD · total del servicio</small></div>
       <h3 id="planName">Cargando paquete…</h3>
       <ul class="features" id="planFeatures"></ul>
-      <div class="note">Después de que Mercado Pago confirme el pago, EventoLens registrará el pedido y mostrará inmediatamente el QR del evento de demostración.</div>
+      <div id="selectedExtras" class="note">Calculando extras seleccionados…</div>
+      <div class="receipt" style="margin-top:18px">
+        <div class="receipt-row"><span>Total del servicio</span><strong id="quoteTotalUsd">—</strong></div>
+        <div class="receipt-row"><span>Anticipo para reservar</span><strong>30%</strong></div>
+        <div class="receipt-row"><span>Anticipo en USD</span><strong id="depositUsd">—</strong></div>
+        <div class="receipt-row"><span>Tipo de cambio usado</span><strong id="fxRate">—</strong></div>
+        <div class="receipt-row"><span>Monto a pagar ahora</span><strong id="depositMxn">—</strong></div>
+        <div class="receipt-row"><span>Saldo pendiente</span><strong id="balanceUsd">—</strong></div>
+      </div>
+      <div class="note">El QR se genera únicamente cuando Mercado Pago confirma el anticipo. El evento conservará el plan y los extras contratados.</div>
       <p style="margin-top:18px"><a href="reservar.html">← Cambiar de paquete</a></p>
     </section>
 
@@ -30,6 +39,10 @@
       <form id="checkoutForm" method="post">
         <input type="hidden" name="action" value="createCheckout">
         <input type="hidden" id="planInput" name="plan" value="">
+        <input type="hidden" id="extrasInput" name="extras" value="">
+        <input type="hidden" id="couponInputCheckout" name="coupon" value="">
+        <input type="hidden" id="eventTypeInput" name="eventType" value="">
+        <input type="hidden" id="guestsInput" name="guests" value="">
 
         <div class="field"><label for="customerName">Nombre</label><input id="customerName" name="customerName" maxlength="80" required autocomplete="name"></div>
         <div class="field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" maxlength="120" required autocomplete="email"></div>
