@@ -372,8 +372,8 @@ document.getElementById('applyLaunchCoupon')?.addEventListener('click',()=>{
   saveExperimentEvent('launch_coupon_applied',{coupon:code,...experimentSnapshot()});
 });
 
-// Registra una sola visita por sesión de navegador/pestaña.
-sendMetricOnce('visit','VISITA');
+// Registra una visita en cada carga/recarga de la landing.
+sendMetric('VISITA');
 
 // Modo de administración local: agrega ?admin=1 a la URL para comprobar la conexión.
 if(new URLSearchParams(location.search).get('admin')==='1' && adminStatus){
